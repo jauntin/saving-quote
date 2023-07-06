@@ -3,35 +3,40 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  Test-Backend:
+  Analyze:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - uses: actions/checkout@v3
-      - run: sudo systemctl start mysql.service
       - uses: jauntin/actions/setup-php-testing@v1
         with:
           php-version: 8.1
-          working-directory: backend
-      - uses: actions/cache@v3
-        with:
-          key: checks-cache
-          path: |
-            backend/.phpstan.result.cache
-            backend/.pint.cache
-      - name: Run checks
-        run: |
-          parallel ::: "vendor/bin/pint --test" "vendor/bin/phpstan analyse --no-interaction --no-ansi"
-      - name: Run tests
+      - name: Analyze
         shell: bash
         run: |
-          cp .env.testing-ci .env.testing && cp .env.testing-ci .env
-          php artisan app:create-database
-          vendor/bin/phpunit
-      - uses: actions/upload-artifact@v3
-        if: always()
+          vendor/bin/phpcs
+          vendor/bin/phpstan analyse --no-interaction --no-ansi
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo systemctl start mysql.service
+      - uses: docker/setup-buildx-action@v2
+      - uses: actions/cache@v3
         with:
-          name: backend-test-logs
-          path: backend/storage/logs/laravel.log
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - uses: docker/build-push-action@v3
+        with:
+          context: .
+          load: true
+          tags: test:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          build-args: |
+            ENV=testing
+      - run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - run: cat .github/workflows/scripts/tests.sh | xargs -I {} docker run --rm --net=host test:latest /bin/sh -c '{}'
