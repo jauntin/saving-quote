@@ -1,0 +1,37 @@
+name: Test
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  Test-Backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo systemctl start mysql.service
+      - uses: jauntin/actions/setup-php-testing@v1
+        with:
+          php-version: 8.1
+          working-directory: backend
+      - uses: actions/cache@v3
+        with:
+          key: checks-cache
+          path: |
+            backend/.phpstan.result.cache
+            backend/.pint.cache
+      - name: Run checks
+        run: |
+          parallel ::: "vendor/bin/pint --test" "vendor/bin/phpstan analyse --no-interaction --no-ansi"
+      - name: Run tests
+        shell: bash
+        run: |
+          cp .env.testing-ci .env.testing && cp .env.testing-ci .env
+          php artisan app:create-database
+          vendor/bin/phpunit
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: backend-test-logs
+          path: backend/storage/logs/laravel.log
