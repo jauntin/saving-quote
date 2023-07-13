@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
  * @property DateTime $created_at
  * @property DateTime $updated_at
  * @method static Builder|QuoteProgress factory()
+ * @method static Builder|QuoteProgress first()
  * @method static Builder|QuoteProgress newModelQuery()
  * @method static Builder|QuoteProgress newQuery()
  * @method static Builder|QuoteProgress query()

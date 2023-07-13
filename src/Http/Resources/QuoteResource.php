@@ -13,7 +13,7 @@ class QuoteResource extends JsonResource
 {
     /**
      * @param Request|null $request
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function toArray($request = null): array
     {

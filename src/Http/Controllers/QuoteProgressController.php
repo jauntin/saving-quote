@@ -14,6 +14,7 @@ class QuoteProgressController extends BaseController
 {
     public function single(string $hash, QuoteProgressService $service): JsonResponse
     {
+        /** @var QuoteProgress $quoteProgress */
         $quoteProgress = QuoteProgress::whereId($hash)->first();
 
         if (!$quoteProgress || $quoteProgress->expire_at < Carbon::now()) {
