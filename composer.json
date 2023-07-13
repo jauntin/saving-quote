@@ -40,7 +40,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "analyze": "vendor/bin/phpcs && vendor/bin/phpstan analyse --memory-limit=1G",
+        "analyze": "vendor/bin/phpcs && vendor/bin/phpstan analyse --memory-limit=1G src tests",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
