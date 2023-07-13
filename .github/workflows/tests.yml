@@ -6,15 +6,17 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  analyze:
+  Analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: jauntin/actions/setup-php-testing@v1
-        with:
-          php-version: 8.1
-      - run: composer analyze
-  test:
+      - name: Run code analysis
+        shell: bash
+        run: |
+          vendor/bin/phpcs
+          vendor/bin/phpstan analyse --no-interaction --no-ansi
+  Test:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
