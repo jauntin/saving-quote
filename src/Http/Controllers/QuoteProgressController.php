@@ -4,9 +4,7 @@ namespace Jauntin\SavingQuote\Http\Controllers;
 
 use Jauntin\SavingQuote\Http\Resources\QuoteResource;
 use Jauntin\SavingQuote\Models\QuoteProgress;
-use App\Service\QuoteProgressService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use Jauntin\SavingQuote\Service\QuoteProgressService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
@@ -14,8 +12,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class QuoteProgressController extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
-
     public function single(string $hash, QuoteProgressService $service): JsonResponse
     {
         $quoteProgress = QuoteProgress::where('hash', $hash)->first();

@@ -2,8 +2,6 @@
 
 namespace Jauntin\SavingQuote;
 
-use Exception;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
 final class SavingQuoteServiceProvider extends ServiceProvider

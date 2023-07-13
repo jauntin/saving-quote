@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace Jauntin\SavingQuote\Service;
 
 use Jauntin\SavingQuote\Models\QuoteProgress;
 use Illuminate\Support\Carbon;

@@ -17,18 +17,20 @@
     ],
     "require": {
         "php": "^8.1",
-        "laravel/framework": "^10.0",
-        "laravel/tinker": "^2.8",
-        "ext-pdo": "*"
+        "illuminate/database": "^10.15",
+        "illuminate/http": "^10.15",
+        "illuminate/routing": "^10.15",
+        "illuminate/support": "^10.15"
     },
     "require-dev": {
-        "nunomaduro/larastan": "^2.6",
+        "orchestra/testbench": "^8.5",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.0",
         "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
         "psr-4": {
-            "Jauntin\\SavingQuote\\": "app/"
+            "Jauntin\\SavingQuote\\": "src/"
         }
     },
     "autoload-dev": {

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Model of quote_progresses table
+ */
+
 namespace Jauntin\SavingQuote\Models;
 
 use DateTime;

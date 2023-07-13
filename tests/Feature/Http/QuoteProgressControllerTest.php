@@ -6,11 +6,11 @@ use Jauntin\SavingQuote\Http\RouteNames;
 use Jauntin\SavingQuote\Models\QuoteProgress;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Tests\TestCase;
+use Tests\SavingQuoteTestCase;
 
-class QuoteProgressControllerTest extends TestCase
+class QuoteProgressControllerTest extends SavingQuoteTestCase
 {
-    public function test_get_not_expired_quote_progress()
+    public function testGetNotExpiredQuoteProgress()
     {
         $quoteProgress = $this->createQuoteProgress();
 
@@ -21,7 +21,7 @@ class QuoteProgressControllerTest extends TestCase
         ]);
     }
 
-    public function test_get_expired_quote_progress()
+    public function testGetExpiredQuoteProgress()
     {
         $quoteProgress = $this->createQuoteProgress();
 
@@ -32,13 +32,13 @@ class QuoteProgressControllerTest extends TestCase
             ->assertStatus(404);
     }
 
-    public function test_get_not_exist_quote_progress()
+    public function testGetNotExistQuoteProgress()
     {
         $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => 'test'], false))
             ->assertStatus(404);
     }
 
-    public function test_create_quote_progress()
+    public function testCreateQuoteProgress()
     {
         $body = [
             'email' => 'daryna@jauntin.com',
@@ -51,7 +51,7 @@ class QuoteProgressControllerTest extends TestCase
             ->assertStatus(201);
     }
 
-    public function test_create_quote_progress_with_not_valid_email()
+    public function testCreateQuoteProgressWithNotValidEmail()
     {
         $body = [
             'email' => 'daryna',
@@ -64,7 +64,7 @@ class QuoteProgressControllerTest extends TestCase
             ->assertStatus(422);
     }
 
-    public function test_create_quote_progress_with_empty_payload()
+    public function testCreateQuoteProgressWithEmptyPayload()
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [], false), ['Accept' => 'application/json'])
             ->assertStatus(422);
