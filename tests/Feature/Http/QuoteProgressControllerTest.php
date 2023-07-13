@@ -10,7 +10,7 @@ use Tests\SavingQuoteTestCase;
 
 class QuoteProgressControllerTest extends SavingQuoteTestCase
 {
-    public function testGetNotExpiredQuoteProgress()
+    public function testGetNotExpiredQuoteProgress(): void
     {
         $quoteProgress = $this->createQuoteProgress();
 
@@ -21,7 +21,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         ]);
     }
 
-    public function testGetExpiredQuoteProgress()
+    public function testGetExpiredQuoteProgress(): void
     {
         $quoteProgress = $this->createQuoteProgress();
 
@@ -32,13 +32,13 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(404);
     }
 
-    public function testGetNotExistQuoteProgress()
+    public function testGetNotExistQuoteProgress(): void
     {
         $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => 'test'], false))
             ->assertStatus(404);
     }
 
-    public function testCreateQuoteProgress()
+    public function testCreateQuoteProgress(): void
     {
         $body = [
             'email' => 'daryna@jauntin.com',
@@ -51,7 +51,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(201);
     }
 
-    public function testCreateQuoteProgressWithNotValidEmail()
+    public function testCreateQuoteProgressWithNotValidEmail(): void
     {
         $body = [
             'email' => 'daryna',
@@ -64,7 +64,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
-    public function testCreateQuoteProgressWithEmptyPayload()
+    public function testCreateQuoteProgressWithEmptyPayload(): void
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [], false), ['Accept' => 'application/json'])
             ->assertStatus(422);

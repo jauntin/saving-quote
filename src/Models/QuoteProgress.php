@@ -48,6 +48,7 @@ class QuoteProgress extends Model
         'opened_at',
     ];
 
+    /** @var array<string, string> $casts */
     protected $casts = [
         'data' => 'array',
     ];

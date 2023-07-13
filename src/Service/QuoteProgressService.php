@@ -8,8 +8,12 @@ use Illuminate\Support\Str;
 
 class QuoteProgressService
 {
+    /** @var array<string, string> $data */
     private array $data;
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     public static function rules(): array
     {
         return [
@@ -18,6 +22,9 @@ class QuoteProgressService
         ];
     }
 
+    /**
+     * @param array<string, string> $data
+     */
     public function setData(array $data): void
     {
         $this->data = $data;
