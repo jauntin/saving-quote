@@ -12,9 +12,11 @@ use Illuminate\Routing\Controller as BaseController;
 
 class QuoteProgressController extends BaseController
 {
-    public function single(QuoteProgress $quoteProgress, QuoteProgressService $service): JsonResponse
+    public function single(string $hash, QuoteProgressService $service): JsonResponse
     {
-        if ($quoteProgress->expire_at < Carbon::now()) {
+        $quoteProgress = QuoteProgress::whereId($hash)->first();
+
+        if (!$quoteProgress || $quoteProgress->expire_at < Carbon::now()) {
             return new JsonResponse('', 404);
         }
 
