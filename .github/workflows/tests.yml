@@ -1,4 +1,4 @@
-name: Tests and Analyse
+name: Tests-Analyse
 
 on:
   pull_request:
@@ -6,12 +6,12 @@ on:
 
 jobs:
   Analyse:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: true
 
-    name: Static Analysis
+    name: Analyse
 
     steps:
       - name: Checkout code
@@ -29,34 +29,18 @@ jobs:
         with:
           timeout_minutes: 5
           max_attempts: 5
-          command: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
+          command: composer install --no-interaction --no-ansi --no-progress --no-scripts --no-autoloader
 
       - name: Execute type checking
         run: vendor/bin/phpstan analyse -l 6 src tests
-  Tests:
-    runs-on: ubuntu-22.04
-
-    strategy:
-      fail-fast: true
-
-    name: Tests
-
+  Test:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v3
+      - uses: jauntin/actions/setup-php-testing@v1
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          ini-values: error_reporting=E_ALL
-          tools: composer:v2
-          coverage: none
-
-      - name: Install dependencies
+          php-version: 8.1
+      - name: Run tests
+        shell: bash
         run: |
-          composer install --no-interaction --no-ansi --no-progress --no-scripts --no-autoloader
-
-      - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+          php artisan test
