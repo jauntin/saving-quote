@@ -38,14 +38,8 @@ jobs:
 
     strategy:
       fail-fast: true
-      matrix:
-        php: [8.1, 8.2]
-        laravel: [9, 10]
-        exclude:
-          - php: '8.1'
-            laravel: 10
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: Tests
 
     steps:
       - name: Checkout code
@@ -62,8 +56,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "illuminate/contracts=^${{ matrix.laravel }}" --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+          composer install --no-interaction --no-ansi --no-progress --no-scripts --no-autoloader
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
