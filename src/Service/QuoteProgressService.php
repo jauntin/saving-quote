@@ -32,7 +32,6 @@ class QuoteProgressService
 
     public function execute(): QuoteProgress
     {
-        $this->data['hash'] = Str::uuid()->toString();
         $this->data['expire_at'] = Carbon::now()->addWeek();
 
         $quoteProgress = new QuoteProgress($this->data);

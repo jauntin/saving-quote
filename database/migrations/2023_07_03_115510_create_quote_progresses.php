@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quote_progresses', function (Blueprint $table) {
-            $table->id();
-            $table->string('hash')->unique();
+            $table->string('id')->primary();
             $table->string('email');
             $table->json('data');
             $table->timestamp('expire_at');

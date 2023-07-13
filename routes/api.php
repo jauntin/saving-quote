@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
-    Route::get('/quote/progress/{hash}', [QuoteProgressController::class, 'single'])->name(RouteNames::GET_QUOTE_PROGRESS);
+Route::prefix('api/v1')->group(function () {
+    Route::get('/quote/progress/{id}', [QuoteProgressController::class, 'single'])->name(RouteNames::GET_QUOTE_PROGRESS);
     Route::post('/quote/progress', [QuoteProgressController::class, 'create'])->name(RouteNames::CREATE_QUOTE_PROGRESS);
 });

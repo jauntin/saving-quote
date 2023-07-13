@@ -10,12 +10,12 @@ namespace Jauntin\SavingQuote\Models;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * App\QuoteProgress
  *
- * @property int $id
- * @property string $hash
+ * @property string $id
  * @property string $email
  * @property array $data
  * @property DateTime $expire_at
@@ -31,17 +31,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|QuoteProgress whereData($value)
  * @method static Builder|QuoteProgress whereEmail($value)
  * @method static Builder|QuoteProgress whereExpireAt($value)
- * @method static Builder|QuoteProgress whereHash($value)
  * @method static Builder|QuoteProgress whereId($value)
  * @method static Builder|QuoteProgress whereOpenedAt($value)
  * @method static Builder|QuoteProgress whereUpdatedAt($value)
  */
 class QuoteProgress extends Model
 {
+    use HasUuids;
+
     protected $table = 'quote_progresses';
 
     protected $fillable = [
-        'hash',
         'email',
         'data',
         'expire_at',
