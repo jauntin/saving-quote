@@ -43,4 +43,4 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
-          php artisan test
+          vendor/bin/phpunit
