@@ -14,7 +14,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
     {
         $quoteProgress = $this->createQuoteProgress();
 
-        $response = $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->hash], false));
+        $response = $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->id], false));
         $response->assertStatus(200);
         $response->assertJson([
             'email' => $quoteProgress->email,
@@ -28,7 +28,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $quoteProgress->expire_at = Carbon::now()->subWeek();
         $quoteProgress->save();
 
-        $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->hash], false))
+        $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->id], false))
             ->assertStatus(404);
     }
 
