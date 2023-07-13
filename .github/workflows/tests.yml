@@ -5,34 +5,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  Analyse:
+  Analyze:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: true
-
-    name: Analyse
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-          tools: composer:v2
-          coverage: none
-
-      - name: Install dependencies
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer install --no-interaction --no-ansi --no-progress --no-scripts --no-autoloader
-
-      - name: Execute type checking
-        run: vendor/bin/phpstan analyse -l 6 src tests
+      - uses: actions/checkout@v3
+      - uses: jauntin/actions/setup-php-testing@v1
+      - name: Run code analysis
+        shell: bash
+        run: |
+          vendor/bin/phpstan analyse -l 6 --no-interaction --no-ansi src tests
   Test:
     runs-on: ubuntu-latest
     steps:
