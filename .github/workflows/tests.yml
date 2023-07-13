@@ -32,7 +32,7 @@ jobs:
           command: composer update --prefer-stable --prefer-dist --no-interaction --no-progress
 
       - name: Execute type checking
-        run: vendor/bin/phpstan analyse
+        run: vendor/bin/phpstan analyse src/ tests/
   Tests:
     runs-on: ubuntu-22.04
 
