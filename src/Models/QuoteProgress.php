@@ -45,6 +45,7 @@ class QuoteProgress extends Model
     protected $fillable = [
         'email',
         'data',
+        'state', // TODO: consider removing
         'expire_at',
         'opened_at',
     ];
@@ -52,5 +53,8 @@ class QuoteProgress extends Model
     /** @var array<string, string> $casts */
     protected $casts = [
         'data' => 'array',
+        'state' => 'array',
+        'expire_at' => 'datetime',
+        'opened_at' => 'datetime',
     ];
 }

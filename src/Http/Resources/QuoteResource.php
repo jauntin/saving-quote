@@ -17,12 +17,10 @@ class QuoteResource extends JsonResource
      */
     public function toArray($request = null): array
     {
-        /** @var QuoteProgress $quoteProgress */
-        $quoteProgress = $this->resource;
-
         return [
-            'email' => $quoteProgress->email,
-            'data'  => $quoteProgress->data,
+            'email' => $this->email,
+            'data'  => $this->data,
+            'state' => $this->state, // TODO: consider removing
         ];
     }
 }
