@@ -1,0 +1,38 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  Analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jauntin/actions/setup-php-testing@v1
+      - name: Run code analysis
+        shell: bash
+        run: |
+          vendor/bin/phpcs
+          vendor/bin/phpstan analyse --no-interaction --no-ansi
+  Test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        php: [8.1]
+        stability: [prefer-lowest, prefer-stable]
+        laravel:
+          - ^10.0
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jauntin/actions/setup-php-testing@v1
+        with:
+          php-version: ${{ matrix.php }}
+      - run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+      - run: vendor/bin/phpunit --coverage-text
