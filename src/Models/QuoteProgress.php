@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
  * @property string $id
  * @property string $email
  * @property array $data
+ * @property array $state
  * @property DateTime $expire_at
  * @property DateTime|null $opened_at
  * @property DateTime $created_at
