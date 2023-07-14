@@ -2,14 +2,20 @@
 
 namespace Jauntin\SavingQuote\Service;
 
+use Illuminate\Support\Facades\Mail;
+use Jauntin\SavingQuote\Interfaces\QuoteProgressAwareMailable;
 use Jauntin\SavingQuote\Models\QuoteProgress;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 class QuoteProgressService
 {
     /** @var array<string, string> $data */
     private array $data;
+    private QuoteProgressAwareMailable $mailable;
+
+    public function __construct(private readonly string $expireUnit, private readonly int $expireValue)
+    {
+    }
 
     /**
      * @return array<string, array<int, string>>
@@ -30,12 +36,21 @@ class QuoteProgressService
         $this->data = $data;
     }
 
+    public function setMailable(QuoteProgressAwareMailable $mailable): void
+    {
+        $this->mailable = $mailable;
+    }
+
     public function execute(): QuoteProgress
     {
-        $this->data['expire_at'] = Carbon::now()->addWeek();
+        $this->data['expire_at'] = Carbon::now()->add($this->expireUnit, $this->expireValue);
 
         $quoteProgress = new QuoteProgress($this->data);
         $quoteProgress->save();
+
+        if (isset($this->mailable)) {
+            $this->mailQuoteProgress($quoteProgress);
+        }
 
         return $quoteProgress;
     }
@@ -46,5 +61,10 @@ class QuoteProgressService
         $quote->save();
 
         return $quote;
+    }
+
+    private function mailQuoteProgress(QuoteProgress $quoteProgress): void
+    {
+        Mail::to($this->data['email'])->queue($this->mailable->setQuoteProgress($quoteProgress));
     }
 }
