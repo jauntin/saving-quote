@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('email');
             $table->json('data');
-            $table->json('state');
             $table->timestamp('expire_at');
             $table->timestamp('opened_at')->nullable();
             $table->timestamps();

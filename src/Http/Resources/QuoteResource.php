@@ -20,7 +20,6 @@ class QuoteResource extends JsonResource
         return [
             'email' => $this->email,
             'data'  => $this->data,
-            'state' => $this->state, // TODO: consider removing
         ];
     }
 }

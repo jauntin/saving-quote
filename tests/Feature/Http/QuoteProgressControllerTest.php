@@ -45,9 +45,6 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             'data' => [
                 'key' => 'value'
             ],
-            'state' => [
-                'foo' => 'bar'
-            ],
         ];
 
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, $body, false), ['Accept' => 'application/json'])
@@ -60,9 +57,6 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             'email' => 'daryna',
             'data' => [
                 'key' => 'value'
-            ],
-            'state' => [
-                'foo' => 'bar'
             ],
         ];
 
@@ -82,9 +76,6 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             'email' => 'daryna@jauntin.com',
             'data' => [
                 'key' => 'value'
-            ],
-            'state' => [
-                'foo' => 'bar'
             ],
             'expire_at' => Carbon::now()->addWeek(),
             'hash' => Str::uuid()->toString(),

@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
  * @property string $id
  * @property string $email
  * @property array $data
- * @property array $state
  * @property DateTime $expire_at
  * @property DateTime|null $opened_at
  * @property DateTime $created_at
@@ -46,15 +45,13 @@ class QuoteProgress extends Model
     protected $fillable = [
         'email',
         'data',
-        'state', // TODO: consider removing
         'expire_at',
         'opened_at',
     ];
 
     /** @var array<string, string> $casts */
     protected $casts = [
-        'data' => 'array',
-        'state' => 'array',
+        'data'      => 'array',
         'expire_at' => 'datetime',
         'opened_at' => 'datetime',
     ];
