@@ -51,6 +51,8 @@ class QuoteProgress extends Model
 
     /** @var array<string, string> $casts */
     protected $casts = [
-        'data' => 'array',
+        'data'      => 'array',
+        'expire_at' => 'datetime',
+        'opened_at' => 'datetime',
     ];
 }
