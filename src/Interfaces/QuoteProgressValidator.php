@@ -12,7 +12,7 @@ interface QuoteProgressValidator
 
     /**
      * @param array<string, string|array|mixed> $data
-     * @return array<int, array|mixed>
+     * @return array<int, array|mixed>|array{}
      */
     public function validate(array $data): array;
 }
