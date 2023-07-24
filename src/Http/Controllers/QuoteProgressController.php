@@ -13,7 +13,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 class QuoteProgressController extends BaseController
 {
-    private QuoteProgressValidator $validator;
+    public function __construct(private readonly ?QuoteProgressValidator $validator = null)
+    {
+    }
 
     public function single(string $hash, QuoteProgressService $service): JsonResponse
     {
@@ -42,10 +44,5 @@ class QuoteProgressController extends BaseController
         $quoteProgress = $service->execute();
 
         return new JsonResponse((new QuoteResource($quoteProgress))->toArray(), 201);
-    }
-
-    public function setValidator(QuoteProgressValidator $validator): void
-    {
-        $this->validator = $validator;
     }
 }

@@ -41,15 +41,14 @@ final class SavingQuoteServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(QuoteProgressController::class, function (Container $container) {
-            $controller = new QuoteProgressController();
-
+            $validator = null;
             $validatorClass = config('saving-quote.validator');
 
             if ($validatorClass && class_exists($validatorClass)) {
-                $controller->setValidator($container->make($validatorClass));
+                $validator = $container->make($validatorClass);
             }
 
-            return $controller;
+            return new QuoteProgressController($validator);
         });
     }
 }
