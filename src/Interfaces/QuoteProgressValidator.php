@@ -4,7 +4,15 @@ namespace Jauntin\SavingQuote\Interfaces;
 
 interface QuoteProgressValidator
 {
-    public function rules(array $data): void;
+    /**
+     * @param array<string, string|array|mixed> $data
+     * @return array<int, array|mixed>
+     */
+    public function rules(array $data): array;
 
-    public function validate(array $data): bool;
+    /**
+     * @param array<string, string|array|mixed> $data
+     * @return array<int, array|mixed>
+     */
+    public function validate(array $data): array;
 }

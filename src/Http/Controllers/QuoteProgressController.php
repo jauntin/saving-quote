@@ -29,8 +29,8 @@ class QuoteProgressController extends BaseController
         if (isset($this->validator)) {
             $data = $quoteProgress->data['formData'] ?? [];
             $this->validator->rules($data);
-            if (!$this->validator->validate($data)) {
-                return new JsonResponse('', 422);
+            if (!empty($errors = $this->validator->validate($data))) {
+                return new JsonResponse($errors, 422);
             }
         }
 
