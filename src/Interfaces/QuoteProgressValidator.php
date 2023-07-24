@@ -6,5 +6,5 @@ interface QuoteProgressValidator
 {
     public function rules(array $data): array;
 
-    public function validate(): bool;
+    public function validate(array $data): bool;
 }
