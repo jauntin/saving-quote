@@ -4,6 +4,7 @@ namespace Jauntin\SavingQuote;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Jauntin\SavingQuote\Http\Controllers\QuoteProgressController;
 use Jauntin\SavingQuote\Service\QuoteProgressService;
 
 final class SavingQuoteServiceProvider extends ServiceProvider
@@ -37,6 +38,18 @@ final class SavingQuoteServiceProvider extends ServiceProvider
             }
 
             return $service;
+        });
+
+        $this->app->singleton(QuoteProgressController::class, function (Container $container) {
+            $controller = new QuoteProgressController();
+
+            $validatorClass = config('saving-quote.validator');
+
+            if ($validatorClass && class_exists($validatorClass)) {
+                $controller->setValidator($container->make($validatorClass));
+            }
+
+            return $controller;
         });
     }
 }
