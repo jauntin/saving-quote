@@ -3,7 +3,10 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
+use Jauntin\SavingQuote\Interfaces\QuoteProgressValidator;
 use Jauntin\SavingQuote\SavingQuoteServiceProvider;
+use Mockery;
 use Orchestra\Testbench\TestCase;
 
 abstract class SavingQuoteTestCase extends TestCase
@@ -15,6 +18,12 @@ abstract class SavingQuoteTestCase extends TestCase
         parent::setUp();
 
         $this->artisan('migrate:fresh');
+
+        App::bind(QuoteProgressValidator::class, function () {
+            $validator = Mockery::mock(QuoteProgressValidator::class);
+            $validator->shouldReceive('rules')->andReturn([]);
+            return $validator;
+        });
     }
 
     protected function getEnvironmentSetUp($app)
