@@ -70,12 +70,23 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
+    public function testNotValidSavedData(): void
+    {
+        $quoteProgress = $this->createQuoteProgress();
+
+        $quoteProgress->data = ['averageDailyAttendance' => '200'];
+        $quoteProgress->save();
+
+        $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->id], false))
+            ->assertStatus(422);
+    }
+
     private function createQuoteProgress(): QuoteProgress
     {
         $data = [
             'email' => 'daryna@jauntin.com',
             'data' => [
-                'key' => 'value'
+                'averageDailyAttendance' => '50',
             ],
             'expire_at' => Carbon::now()->addWeek(),
             'hash' => Str::uuid()->toString(),

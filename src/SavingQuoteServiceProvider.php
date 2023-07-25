@@ -4,6 +4,7 @@ namespace Jauntin\SavingQuote;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Jauntin\SavingQuote\Interfaces\QuoteProgressValidationRules;
 use Jauntin\SavingQuote\Service\QuoteProgressService;
 
 final class SavingQuoteServiceProvider extends ServiceProvider
@@ -38,5 +39,7 @@ final class SavingQuoteServiceProvider extends ServiceProvider
 
             return $service;
         });
+
+        $this->app->bind(QuoteProgressValidationRules::class, config('saving-quote.validator'));
     }
 }

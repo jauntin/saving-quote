@@ -3,7 +3,9 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Jauntin\SavingQuote\Interfaces\QuoteProgressValidationRules;
 use Jauntin\SavingQuote\SavingQuoteServiceProvider;
+use Mockery\MockInterface;
 use Orchestra\Testbench\TestCase;
 
 abstract class SavingQuoteTestCase extends TestCase
@@ -15,6 +17,13 @@ abstract class SavingQuoteTestCase extends TestCase
         parent::setUp();
 
         $this->artisan('migrate:fresh');
+
+        $this->mock(QuoteProgressValidationRules::class, function (MockInterface $mock) {
+            $mock->shouldReceive('rules')->andReturn([
+                'averageDailyAttendance' => ['required', 'integer', 'min:1', 'max:100']
+            ]);
+            $mock->shouldReceive('transformData')->andReturnArg(0);
+        });
     }
 
     protected function getEnvironmentSetUp($app)
