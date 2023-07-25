@@ -2,6 +2,7 @@
 
 namespace Jauntin\SavingQuote\Http\Controllers;
 
+use Illuminate\Validation\ValidationException;
 use Jauntin\SavingQuote\Http\Resources\QuoteResource;
 use Jauntin\SavingQuote\Interfaces\QuoteProgressValidator;
 use Jauntin\SavingQuote\Models\QuoteProgress;
@@ -10,14 +11,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Validator;
 
 class QuoteProgressController extends BaseController
 {
-    public function __construct(private readonly ?QuoteProgressValidator $validator = null)
-    {
-    }
-
-    public function single(string $hash, QuoteProgressService $service): JsonResponse
+    /**
+     * @throws ValidationException
+     */
+    public function single(string $hash, QuoteProgressService $service, QuoteProgressValidator $validator = null): JsonResponse
     {
         /** @var QuoteProgress $quoteProgress */
         $quoteProgress = QuoteProgress::whereId($hash)->first();
@@ -26,12 +27,9 @@ class QuoteProgressController extends BaseController
             return new JsonResponse('', 404);
         }
 
-        if (isset($this->validator)) {
+        if (isset($validator)) {
             $data = $quoteProgress->data['formData'] ?? [];
-            $this->validator->rules($data);
-            if (!empty($errors = $this->validator->validate($data))) {
-                return new JsonResponse($errors, 422);
-            }
+            Validator::make($data, $validator->rules($data))->validate();
         }
 
         return new JsonResponse((new QuoteResource($service->markAsOpened($quoteProgress)))->toArray(), 200);

@@ -46,3 +46,13 @@ Response example:
 ```
 
 If link was created more than 1 week ago, GET endpoint will return 404 error (link is expired)
+If data isn't valid endpoint will return 422 status code
+
+## Mailable
+
+To send email on project side should be created class which implements: `Jauntin\SavingQuote\Interfaces\QuoteProgressAwareMailable`.
+
+## Validation rules
+
+To validate data depends on main project rules, should be created class which implements
+`Jauntin\SavingQuote\Interfaces\QuoteProgressValidator`

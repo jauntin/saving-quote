@@ -6,5 +6,5 @@ return [
         'value' => env('SAVING_QUOTE_EXPIRE_VALUE', 7),
     ],
     'mailable' => null, // Class name of the mailable to send after a quote is saved.
-    'validator' => \Jauntin\SavingQuote\Interfaces\QuoteProgressValidator::class,
+    'validator' => null,
 ];
