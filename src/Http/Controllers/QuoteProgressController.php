@@ -27,7 +27,7 @@ class QuoteProgressController extends BaseController
             return new JsonResponse('', 404);
         }
 
-        $data = $quoteProgress->data['formData'] ?? [];
+        $data = $quoteProgress->data ?? [];
         Validator::make($data, $validator->rules($data))->validate();
 
         return new JsonResponse((new QuoteResource($service->markAsOpened($quoteProgress)))->toArray(), 200);
