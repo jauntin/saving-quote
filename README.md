@@ -55,4 +55,4 @@ To send email on project side should be created class which implements: `Jauntin
 ## Validation rules
 
 To validate data depends on main project rules, should be created class which implements
-`Jauntin\SavingQuote\Interfaces\QuoteProgressValidator`
+`Jauntin\SavingQuote\Interfaces\QuoteProgressValidationRules`
