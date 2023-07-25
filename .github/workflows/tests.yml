@@ -14,7 +14,7 @@ jobs:
       - name: Run code analysis
         shell: bash
         run: |
-          vendor/bin/phpcs
+          vendor/bin/pint --test
           vendor/bin/phpstan analyse --no-interaction --no-ansi
   Test:
     runs-on: ${{ matrix.os }}
