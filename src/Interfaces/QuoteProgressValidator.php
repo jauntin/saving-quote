@@ -6,7 +6,7 @@ interface QuoteProgressValidator
 {
     /**
      * @param array<string, string|array|mixed> $data
-     * @return array<int, array|mixed>
+     * @return array<string, mixed>
      */
     public function rules(array $data): array;
 }

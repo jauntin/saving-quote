@@ -21,7 +21,9 @@ abstract class SavingQuoteTestCase extends TestCase
 
         App::bind(QuoteProgressValidator::class, function () {
             $validator = Mockery::mock(QuoteProgressValidator::class);
-            $validator->shouldReceive('rules')->andReturn([]);
+            $validator->shouldReceive('rules')->andReturn([
+                'averageDailyAttendance' => ['required', 'integer', 'min:1', 'max:100']
+            ]);
             return $validator;
         });
     }
