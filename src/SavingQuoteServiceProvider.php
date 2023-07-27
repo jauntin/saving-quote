@@ -25,6 +25,8 @@ final class SavingQuoteServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'saving-quote');
 
+        $this->mergeConfigFrom(__DIR__ . '/../config/database.php', 'database');
+
         $this->app->singleton(QuoteProgressService::class, function (Container $container) {
             $service = new QuoteProgressService(
                 (string) config('saving-quote.expire.unit'),
