@@ -12,7 +12,7 @@ return new class () extends Migration
     public function up(): void
     {
         Schema::table('quote_progresses', function (Blueprint $table) {
-            $table->timestamp('expire_at')->useCurrent();
+            $table->timestamp('expire_at')->useCurrent()->change();
         });
     }
 
@@ -22,7 +22,7 @@ return new class () extends Migration
     public function down(): void
     {
         Schema::table('quote_progresses', function (Blueprint $table) {
-            $table->timestamp('expire_at');
+            $table->timestamp('expire_at')->change();
         });
     }
 };
