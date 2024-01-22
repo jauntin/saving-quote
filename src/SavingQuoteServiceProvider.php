@@ -30,7 +30,7 @@ final class SavingQuoteServiceProvider extends ServiceProvider
         $this->app->singleton(QuoteProgressService::class, function (Container $container) {
             $service = new QuoteProgressService(
                 (string) config('saving-quote.expire.unit'),
-                (int) config('saving-quote.expire.value'),
+                (int) config('saving-quote.expire.value') + (int) config('saving-quote.expire.grace_period'),
             );
 
             $mailableClass = config('saving-quote.mailable');
