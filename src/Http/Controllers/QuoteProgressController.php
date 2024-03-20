@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class QuoteProgressController extends BaseController
 {
@@ -26,8 +28,15 @@ class QuoteProgressController extends BaseController
             return new JsonResponse('', 404);
         }
 
-        $data = $validator->transformData($quoteProgress->data ?? []);
-        Validator::make($data, $validator->rules($data))->validate();
+        try {
+            $data = $validator->transformData($quoteProgress->data ?? []);
+            Validator::make($data, $validator->rules($data))->validate();
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            Log::info(sprintf('Unable to process saved quote %s. Message: %s', $hash, $e->getMessage()), ['trace' => $e->getTraceAsString()]);
+            return new JsonResponse(['message' => 'Unable to process data'], 400);
+        }
 
         return new JsonResponse((new QuoteResource($service->markAsOpened($quoteProgress)))->toArray(), 200);
     }
