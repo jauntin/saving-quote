@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Http;
 
-use Jauntin\SavingQuote\Http\RouteNames;
-use Jauntin\SavingQuote\Models\QuoteProgress;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Jauntin\SavingQuote\Http\RouteNames;
+use Jauntin\SavingQuote\Models\QuoteProgress;
 use Tests\SavingQuoteTestCase;
 
 class QuoteProgressControllerTest extends SavingQuoteTestCase
@@ -43,7 +43,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $body = [
             'email' => 'daryna@jauntin.com',
             'data' => [
-                'key' => 'value'
+                'key' => 'value',
             ],
         ];
 
@@ -56,7 +56,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $body = [
             'email' => 'daryna',
             'data' => [
-                'key' => 'value'
+                'key' => 'value',
             ],
         ];
 

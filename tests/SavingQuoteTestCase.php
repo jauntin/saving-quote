@@ -20,7 +20,7 @@ abstract class SavingQuoteTestCase extends TestCase
 
         $this->mock(QuoteProgressValidationRules::class, function (MockInterface $mock) {
             $mock->shouldReceive('rules')->andReturn([
-                'averageDailyAttendance' => ['required', 'integer', 'min:1', 'max:100']
+                'averageDailyAttendance' => ['required', 'integer', 'min:1', 'max:100'],
             ]);
             $mock->shouldReceive('transformData')->andReturnArg(0);
         });
@@ -31,9 +31,9 @@ abstract class SavingQuoteTestCase extends TestCase
         $app['config']->set('database.default', 'testbench');
 
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 

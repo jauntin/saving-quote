@@ -2,15 +2,16 @@
 
 namespace Jauntin\SavingQuote\Service;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Jauntin\SavingQuote\Interfaces\QuoteProgressAwareMailable;
 use Jauntin\SavingQuote\Models\QuoteProgress;
-use Illuminate\Support\Carbon;
 
 class QuoteProgressService
 {
-    /** @var array<string, string> $data */
+    /** @var array<string, string> */
     private array $data;
+
     private QuoteProgressAwareMailable $mailable;
 
     public function __construct(private readonly string $expireUnit, private readonly int $expireValue)
@@ -24,12 +25,12 @@ class QuoteProgressService
     {
         return [
             'email' => ['required', 'email'],
-            'data'  => ['required', 'array'],
+            'data' => ['required', 'array'],
         ];
     }
 
     /**
-     * @param array<string, string> $data
+     * @param  array<string, string>  $data
      */
     public function setData(array $data): void
     {
