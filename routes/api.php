@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Jauntin\SavingQuote\Http\Controllers\QuoteProgressController;
 use Jauntin\SavingQuote\Http\RouteNames;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

@@ -9,8 +9,8 @@ namespace Jauntin\SavingQuote\Models;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\QuoteProgress
@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
  * @property DateTime|null $opened_at
  * @property DateTime $created_at
  * @property DateTime $updated_at
+ *
  * @method static Builder|QuoteProgress factory()
  * @method static Builder|QuoteProgress first()
  * @method static Builder|QuoteProgress newModelQuery()
@@ -49,9 +50,9 @@ class QuoteProgress extends Model
         'opened_at',
     ];
 
-    /** @var array<string, string> $casts */
+    /** @var array<string, string> */
     protected $casts = [
-        'data'      => 'array',
+        'data' => 'array',
         'expire_at' => 'datetime',
         'opened_at' => 'datetime',
     ];
