@@ -14,9 +14,7 @@ class QuoteProgressService
 
     private QuoteProgressAwareMailable $mailable;
 
-    public function __construct(private readonly string $expireUnit, private readonly int $expireValue)
-    {
-    }
+    public function __construct(private readonly string $expireUnit, private readonly int $expireValue) {}
 
     /**
      * @return array<string, array<int, string>>
