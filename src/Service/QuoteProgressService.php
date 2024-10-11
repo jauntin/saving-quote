@@ -18,7 +18,6 @@ class QuoteProgressService
     public function __construct(private readonly string $expireUnit, private readonly int $expireValue) {}
 
     /**
-     * @param QuoteProgressValidationRules $validator
      * @return array<string, array<int, string>>
      */
     public static function rules(QuoteProgressValidationRules $validator): array

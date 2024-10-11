@@ -46,7 +46,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
                 'formData' => [
                     'excludedActivities' => true,
                     'averageDailyAttendance' => 40,
-                ]
+                ],
             ],
         ];
 
