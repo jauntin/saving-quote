@@ -43,12 +43,15 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $body = [
             'email' => 'daryna@jauntin.com',
             'data' => [
-                'key' => 'value',
+                'formData' => [
+                    'excludedActivities' => true,
+                    'averageDailyAttendance' => 40,
+                ]
             ],
         ];
 
-        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, $body, false), ['Accept' => 'application/json'])
-            ->assertStatus(201);
+        $response = $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, $body, false), ['Accept' => 'application/json']);
+        $response->assertStatus(201);
     }
 
     public function testCreateQuoteProgressWithNotValidEmail(): void
@@ -86,7 +89,10 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $data = [
             'email' => 'daryna@jauntin.com',
             'data' => [
-                'averageDailyAttendance' => '50',
+                'formData' => [
+                    'averageDailyAttendance' => '50',
+                    'excludedActivities' => true,
+                ],
             ],
             'expire_at' => Carbon::now()->addWeek(),
             'hash' => Str::uuid()->toString(),
