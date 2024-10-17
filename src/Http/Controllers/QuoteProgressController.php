@@ -42,9 +42,11 @@ class QuoteProgressController extends BaseController
         return new JsonResponse((new QuoteResource($service->markAsOpened($quoteProgress)))->toArray(), 200);
     }
 
-    public function create(Request $request, QuoteProgressService $service): JsonResponse
+    public function create(Request $request, QuoteProgressService $service, QuoteProgressValidationRules $validator): JsonResponse
     {
-        $request->validate(QuoteProgressService::rules());
+        $request->merge($validator->transformData($request->input('data') ?? []));
+
+        $request->validate(QuoteProgressService::rules($validator));
         $service->setData($request->toArray());
         $quoteProgress = $service->execute();
 

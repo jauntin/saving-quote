@@ -43,7 +43,8 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
         $body = [
             'email' => 'daryna@jauntin.com',
             'data' => [
-                'key' => 'value',
+                'excludedActivities' => true,
+                'averageDailyAttendance' => 40,
             ],
         ];
 
@@ -87,6 +88,7 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             'email' => 'daryna@jauntin.com',
             'data' => [
                 'averageDailyAttendance' => '50',
+                'excludedActivities' => true,
             ],
             'expire_at' => Carbon::now()->addWeek(),
             'hash' => Str::uuid()->toString(),

@@ -5,6 +5,7 @@ namespace Jauntin\SavingQuote\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Jauntin\SavingQuote\Interfaces\QuoteProgressAwareMailable;
+use Jauntin\SavingQuote\Interfaces\QuoteProgressValidationRules;
 use Jauntin\SavingQuote\Models\QuoteProgress;
 
 class QuoteProgressService
@@ -19,11 +20,12 @@ class QuoteProgressService
     /**
      * @return array<string, array<int, string>>
      */
-    public static function rules(): array
+    public static function rules(QuoteProgressValidationRules $validator): array
     {
         return [
             'email' => ['required', 'email'],
             'data' => ['required', 'array'],
+            ...$validator->rules(),
         ];
     }
 
