@@ -48,8 +48,8 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ],
         ];
 
-        $response = $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, $body, false), ['Accept' => 'application/json']);
-        $response->assertStatus(201);
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, $body, false), ['Accept' => 'application/json'])
+            ->assertStatus(201);
     }
 
     public function testCreateQuoteProgressWithNotValidEmail(): void
