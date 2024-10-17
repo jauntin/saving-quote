@@ -44,7 +44,7 @@ class QuoteProgressController extends BaseController
 
     public function create(Request $request, QuoteProgressService $service, QuoteProgressValidationRules $validator): JsonResponse
     {
-        $request->merge($request->input('data')['formData'] ?? []);
+        $request->merge($validator->transformData($request->input('data') ?? []));
 
         $request->validate(QuoteProgressService::rules($validator));
         $service->setData($request->toArray());
