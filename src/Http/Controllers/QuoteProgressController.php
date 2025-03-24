@@ -46,9 +46,12 @@ class QuoteProgressController extends BaseController
     {
         $request->merge($validator->transformData($request->input('data') ?? []));
 
-        $request->validate(QuoteProgressService::rules($validator));
-        $service->setData($request->toArray());
-        $quoteProgress = $service->execute();
+        $request->validate([
+            'email' => ['required', 'email'],
+            'data' => ['required', 'array'],
+            ...$validator->rules($request->all()),
+        ]);
+        $quoteProgress = $service->create($request->toArray());
 
         return new JsonResponse((new QuoteResource($quoteProgress))->toArray(), 201);
     }

@@ -28,16 +28,12 @@ final class SavingQuoteServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/database.php', 'database');
 
         $this->app->singleton(QuoteProgressService::class, function (Container $container) {
-            $service = new QuoteProgressService(
-                (string) config('saving-quote.expire.unit'),
-                (int) config('saving-quote.expire.value') + (int) config('saving-quote.expire.grace_period'),
-            );
-
             $mailableClass = config('saving-quote.mailable');
-
-            if ($mailableClass && class_exists($mailableClass)) {
-                $service->setMailable($container->make($mailableClass));
-            }
+            $service = new QuoteProgressService(
+                expireUnit: (string) config('saving-quote.expire.unit'),
+                expireValue: (int) config('saving-quote.expire.value') + (int) config('saving-quote.expire.grace_period'),
+                mailable: $mailableClass && class_exists($mailableClass) ? $container->make($mailableClass) : null
+            );
 
             return $service;
         });
