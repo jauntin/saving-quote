@@ -16,7 +16,7 @@ abstract class SavingQuoteTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('migrate:fresh');
+        $this->artisan('migrate');
 
         $this->mock(QuoteProgressValidationRules::class, function (MockInterface $mock) {
             $mock->shouldReceive('rules')->andReturn([

@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $id
  * @property string $email
- * @property array $data
+ * @property array<string, mixed> $data
  * @property DateTime $expire_at
  * @property DateTime|null $opened_at
  * @property DateTime $created_at
