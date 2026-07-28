@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $id
  * @property string $email
+ * @property array<int, string>|null $additional_emails
  * @property array<string, mixed> $data
  * @property DateTime $expire_at
  * @property DateTime|null $opened_at
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|QuoteProgress whereCreatedAt($value)
  * @method static Builder|QuoteProgress whereData($value)
  * @method static Builder|QuoteProgress whereEmail($value)
+ * @method static Builder|QuoteProgress whereAdditionalEmails($value)
  * @method static Builder|QuoteProgress whereExpireAt($value)
  * @method static Builder|QuoteProgress whereId($value)
  * @method static Builder|QuoteProgress whereOpenedAt($value)
@@ -45,6 +47,7 @@ class QuoteProgress extends Model
 
     protected $fillable = [
         'email',
+        'additional_emails',
         'data',
         'expire_at',
         'opened_at',
@@ -52,6 +55,7 @@ class QuoteProgress extends Model
 
     /** @var array<string, string> */
     protected $casts = [
+        'additional_emails' => 'array',
         'data' => 'array',
         'expire_at' => 'datetime',
         'opened_at' => 'datetime',

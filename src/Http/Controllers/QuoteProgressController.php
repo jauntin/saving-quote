@@ -48,6 +48,8 @@ class QuoteProgressController extends BaseController
 
         $request->validate([
             'email' => ['required', 'email'],
+            'additionalEmails' => ['sometimes', 'array', 'max:'.config('saving-quote.max_additional_emails')],
+            'additionalEmails.*' => ['required', 'email', 'distinct', 'different:email'],
             'data' => ['required', 'array'],
             ...$validator->rules($request->all()),
         ]);

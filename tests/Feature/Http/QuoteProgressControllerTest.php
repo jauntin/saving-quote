@@ -49,6 +49,16 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
+    public function test_get_quote_progress_without_additional_emails_returns_empty_array(): void
+    {
+        $quoteProgress = $this->createQuoteProgress();
+        $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->id], false))
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => ['additionalEmails' => []],
+            ]);
+    }
+
     public function test_create_quote_progress(): void
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
@@ -70,6 +80,69 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
     public function test_create_quote_progress_with_empty_payload(): void
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_with_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['second@jauntin.com', 'third@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(201)
+            ->assertJson([
+                'email' => 'daryna@jauntin.com',
+                'data' => ['additionalEmails' => ['second@jauntin.com', 'third@jauntin.com']],
+            ]);
+    }
+
+    public function test_create_quote_progress_without_additional_emails_still_works(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(201);
+    }
+
+    public function test_create_quote_progress_rejects_too_many_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['a@jauntin.com', 'b@jauntin.com', 'c@jauntin.com', 'd@jauntin.com', 'e@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_rejects_duplicate_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['second@jauntin.com', 'second@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_rejects_additional_email_matching_primary_email(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['daryna@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_rejects_invalid_additional_email(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['not-an-email'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
             ->assertStatus(422);
     }
 

@@ -19,7 +19,10 @@ class QuoteResource extends JsonResource
     {
         return [
             'email' => $this->email,
-            'data' => $this->data,
+            'data' => [
+                ...$this->data,
+                'additionalEmails' => $this->additional_emails ?? [],
+            ],
         ];
     }
 }
