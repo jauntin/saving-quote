@@ -126,6 +126,16 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
+    public function test_create_quote_progress_rejects_additional_email_matching_primary_email(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['daryna@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
     public function test_create_quote_progress_rejects_invalid_additional_email(): void
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
