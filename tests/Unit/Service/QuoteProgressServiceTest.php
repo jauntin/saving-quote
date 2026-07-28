@@ -39,6 +39,26 @@ class QuoteProgressServiceTest extends SavingQuoteTestCase
         $this->assertGreaterThan(Carbon::now(), $quoteProgress->expire_at);
     }
 
+    public function test_create_quote_progress_sends_mail_to_additional_emails(): void
+    {
+        Mail::fake();
+        Mail::shouldReceive('to')
+            ->once()
+            ->with(['test@example.com', 'second@example.com', 'third@example.com'])
+            ->andReturnSelf();
+        Mail::shouldReceive('queue')->once()->andReturnSelf();
+        $data = [
+            'email' => 'test@example.com',
+            'additionalEmails' => ['second@example.com', 'third@example.com'],
+            'data' => ['key' => 'value'],
+        ];
+        $this->mailable->shouldReceive('setQuoteProgress')->once()->andReturnSelf();
+
+        $quoteProgress = $this->service->create($data);
+
+        $this->assertEquals(['second@example.com', 'third@example.com'], $quoteProgress->additional_emails);
+    }
+
     public function test_create_quote_progress_without_mailable(): void
     {
         Mail::fake();

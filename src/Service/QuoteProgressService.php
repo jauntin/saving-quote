@@ -17,12 +17,14 @@ class QuoteProgressService
     public function create(array $data): QuoteProgress
     {
         $data['expire_at'] = Carbon::now()->add($this->expireUnit, $this->expireValue);
+        $data['additional_emails'] = $data['additionalEmails'] ?? null;
 
         $quoteProgress = new QuoteProgress($data);
         $quoteProgress->save();
 
         if (isset($this->mailable)) {
-            Mail::to($data['email'])->queue($this->mailable->setQuoteProgress($quoteProgress));
+            $recipients = array_merge([$data['email']], $data['additionalEmails'] ?? []);
+            Mail::to($recipients)->queue($this->mailable->setQuoteProgress($quoteProgress));
         }
 
         return $quoteProgress;
