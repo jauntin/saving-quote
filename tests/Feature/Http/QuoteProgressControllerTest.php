@@ -73,6 +73,59 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
+    public function test_create_quote_progress_with_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['second@jauntin.com', 'third@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(201)
+            ->assertJson([
+                'email' => 'daryna@jauntin.com',
+                'data' => ['additionalEmails' => ['second@jauntin.com', 'third@jauntin.com']],
+            ]);
+    }
+
+    public function test_create_quote_progress_without_additional_emails_still_works(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(201);
+    }
+
+    public function test_create_quote_progress_rejects_too_many_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['a@jauntin.com', 'b@jauntin.com', 'c@jauntin.com', 'd@jauntin.com', 'e@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_rejects_duplicate_additional_emails(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['second@jauntin.com', 'second@jauntin.com'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
+    public function test_create_quote_progress_rejects_invalid_additional_email(): void
+    {
+        $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
+            'email' => 'daryna@jauntin.com',
+            'additionalEmails' => ['not-an-email'],
+            'data' => ['excludedActivities' => true, 'averageDailyAttendance' => 40],
+        ], false), ['Accept' => 'application/json'])
+            ->assertStatus(422);
+    }
+
     private function createQuoteProgress($data = []): QuoteProgress
     {
         $data = [
