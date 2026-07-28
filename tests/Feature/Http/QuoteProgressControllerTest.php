@@ -49,6 +49,16 @@ class QuoteProgressControllerTest extends SavingQuoteTestCase
             ->assertStatus(422);
     }
 
+    public function test_get_quote_progress_without_additional_emails_returns_empty_array(): void
+    {
+        $quoteProgress = $this->createQuoteProgress();
+        $this->getJson(route(RouteNames::GET_QUOTE_PROGRESS, ['hash' => $quoteProgress->id], false))
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => ['additionalEmails' => []],
+            ]);
+    }
+
     public function test_create_quote_progress(): void
     {
         $this->postJson(route(RouteNames::CREATE_QUOTE_PROGRESS, [
